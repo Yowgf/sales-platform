@@ -3,8 +3,26 @@
 Platform for a sales team to manage client cases.
 
 
-# Code overview (section is currently a work in progress)
+# How to run
 
-Currently, we have the interaction_manager and storage_manager classes. It should be quite easy to find them. The interaction_manager handles all user interaction, while the storage_manager handles data manupulation tasks.
+Simply pass `main.py` to the python interpreter, and the program should start.
 
-Notice that the current implementation is very rudimentary and monolithic. We expect a lot of refactoring to happen in the course of the project.
+In linux:
+
+```shell
+python3 main.py
+```
+
+In Windows (not tested):
+
+```shell
+python main.py
+```
+
+# Code overview
+
+The code is divided into two parts: userInterface (front end) and storageManager (_kind of_ a back end).
+
+Currently, the storageManager just contains some mock data for the users, and does not persist memory in any way. In the future, we would like to include some kind of database connection, so that data is persisted through application runs.
+
+Furthermore, the only way to access the application at the moment is through the console.
