@@ -1,9 +1,15 @@
-from interaction_manager import interaction_manager
-from storage_manager import storage_manager
+from sys import exit
+
+from userInterface import consoleInterface
+from storageManager import storageManager
 
 def main():
-    sm = storage_manager()
-    im = interaction_manager(sm)
-    im.run()
+    sm = storageManager()
+    ui = consoleInterface(sm)
+    ui.run()
 
-main()
+if __name__ == "__main__":
+    main()
+else:
+    print("Only console mode is supported")
+    exit(1)
