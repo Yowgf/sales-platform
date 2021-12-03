@@ -1,5 +1,5 @@
 import pytest
-from easyClass import easyClass
+from . import easyClass
 
 class TestStack:
 
