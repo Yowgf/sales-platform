@@ -45,12 +45,12 @@ class menuUtils:
             except (ValueError, InvalidLength) as err:
                 oopsMessage = "\nOops: {}\n".format(err)
                 if oneAttemptWrong:
-                     self.console.clear(self.countLines(oopsMessage))
-                self.console.clear(self.countLines(inputMessage) + 2)
+                     self.console.clear(self.console.countLines(oopsMessage))
+                self.console.clear(self.console.countLines(inputMessage) + 2)
                 oneAttemptWrong = True
         # Restore normal menu
         if oneAttemptWrong:
-            self.console.clear(self.countLines(oopsMessage) + 1)
+            self.console.clear(self.console.countLines(oopsMessage) + 1)
             self.console.print(inputMessage + inStr + "\n")
         return inStr
     
