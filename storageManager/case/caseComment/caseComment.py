@@ -1,10 +1,9 @@
 """caseComment class"""
-import datetime
-from utils import utils
+from utils import datetimeNow
 
 class caseComment:
     def __init__(self, createdBy, comment):
         self.createdBy = createdBy
         self.comment = comment
         
-        self.createdAt = datetime.datetime.now()
+        self.createdAt = datetimeNow()
