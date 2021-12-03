@@ -11,5 +11,5 @@ def main():
 if __name__ == "__main__":
     main()
 else:
-    print("Only console mode is supported")
+    print("Only console mode is supported", file=sys.stderr)
     exit(1)
