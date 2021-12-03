@@ -1,4 +1,5 @@
 """case class"""
+
 from datetime import datetime
 from utils import utils
 
@@ -8,6 +9,7 @@ from .caseComment import caseComment
 class case:
     def __init__(self, createdBy):
         self.createdBy = createdBy
+        self.assignedTo = None
         self.title = None
         self.category = None
         self.description = None
@@ -33,9 +35,12 @@ class case:
         descriptionValidLenRange = (1, 1000)
         utils.checkAttLenInRange("description", description, descriptionValidLenRange)
     
-    def addComment(self, comment):
-        self.comments.append(caseComment(comment))
+    def addComment(self, user, comment):
+        self.comments.append(caseComment(user.name, comment))
         
+    def assignTo(self, salesUser):
+        self.assignedTo = salesUser
+    
     def __str__(self):
         stringifiedCase = ""
         
@@ -50,7 +55,9 @@ class case:
         stringifiedCase += "Description: {}\n".format(self.description)
 
         # Comments have to be printed out one by one
-        stringifiedCase += "Comments:\n"
+        stringifiedCase += "\nComments:\n"
+        if len(self.comments) > 0:
+            stringifiedCase += "\n"
         for comment in self.comments:
             stringifiedCase += "{} ({}): {}\n".format(comment.createdBy,
                                                       comment.createdAt.prettyStr(),

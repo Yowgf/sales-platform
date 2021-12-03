@@ -7,5 +7,5 @@ def main():
     sm = storageManager()
     ui = consoleInterface(sm)
     ui.run()
-
+    
 main()

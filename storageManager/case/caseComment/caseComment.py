@@ -7,4 +7,4 @@ class caseComment:
         self.createdBy = createdBy
         self.comment = comment
         
-        self.createdAt = datetimeNow()
+        self.createdAt = utils.datetimeNow()
