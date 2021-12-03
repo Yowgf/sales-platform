@@ -21,3 +21,7 @@ class TestInRange:
     rng = [0, 10]
     assert inRange(-1, rng) is False
     assert inRange(11, rng) is False
+
+class TestCheckAttLenInRange:
+    with pytest.raises(Exception):
+        checkAttLenInRange("test value", 10, [0,5])
