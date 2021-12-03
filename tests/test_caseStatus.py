@@ -4,40 +4,33 @@ from utils import utils
 from storageManager.case.caseStatus.caseStatus import caseStatus
 
 class TestCaseStatus:
-    def create_newCase():
-        newCase = caseStatus()
-        return newCase
+    @pytest.fixture
+    def newCase(self):
+        return caseStatus()
     
-    def test_DefaultStatusIsPendingAnalysis(self):
-        newCase = TestCaseStatus.create_newCase()
+    def test_DefaultStatusIsPendingAnalysis(self, newCase):
         assert newCase.defaultStatus == "pending analysis"
 
-    def test_DefaultStatusIsPendingAnalysisOnInitialization(self):
-        newCase = TestCaseStatus.create_newCase()
+    def test_DefaultStatusIsPendingAnalysisOnInitialization(self, newCase):
         assert newCase.status == "pending analysis"
 
-    def test_CanSetStatusToPendingResponse(self):
-        newCase = TestCaseStatus.create_newCase()
+    def test_CanSetStatusToPendingResponse(self, newCase):
         newCase.set(newCase.pendingResponse)
         assert newCase.status == "pending response"
 
-    def test_CanSetStatusToUnderAnalysis(self):
-        newCase = TestCaseStatus.create_newCase()
+    def test_CanSetStatusToUnderAnalysis(self, newCase):
         newCase.set(newCase.underAnalysis)
         assert newCase.status == "under analysis"
         
-    def test_CanSetStatusToResolved(self):
-        newCase = TestCaseStatus.create_newCase()
+    def test_CanSetStatusToResolved(self, newCase):
         newCase.set(newCase.resolved)
         assert newCase.status == "resolved"
     
-    def test_InvalidCaseSetRaiseException(self):
+    def test_InvalidCaseSetRaiseException(self, newCase):
         with pytest.raises(Exception):
-            newCase = TestCaseStatus.create_newCase()
             invalidCase = "waiting for response"
             newCase.set(invalidCase)
 
-    def test_GetReturnCurrentStatus(self):
-        newCase = TestCaseStatus.create_newCase()
+    def test_GetReturnCurrentStatus(self, newCase):
         newCase.set("resolved")
         assert newCase.get() == "resolved"
