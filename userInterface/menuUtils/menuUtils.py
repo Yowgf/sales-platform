@@ -1,5 +1,7 @@
 """menuUtils class"""
 
+from errors.InvalidLength import InvalidLength
+
 class menuUtils:
     def __init__(self, console):
         self.console = console
