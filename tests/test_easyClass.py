@@ -13,24 +13,3 @@ class TestEasyClass:
   def test_NotEmptyStack(self, setUp):
     self.easyClass.push(10)
     assert self.easyClass.is_empty() is False
-
-  # def test_SizeStack(self):
-  #   self.easyClass.push(10)
-  #   self.easyClass.push(20)
-  #   self.easyClass.push(30)
-  #   size = self.easyClass.size
-  #   self.assertEqual(3, size)
-
-  # def test_PushPopStack(self):
-  #   self.easyClass.push(10)
-  #   self.easyClass.push(20)
-  #   self.easyClass.push(30)
-  #   self.easyClass.pop()
-  #   result = self.easyClass.pop()
-  #   self.assertEqual(20, result)
-
-  # def test_EmptyStackException(self):
-  #   self.easyClass.push(10)
-  #   self.easyClass.pop()
-  #   with self.assertRaises(Exception):
-  #     self.easyClass.pop()
