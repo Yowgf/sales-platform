@@ -4,6 +4,7 @@ import pytest
 from utils import utils
 
 from storageManager.case.case import case
+from storageManager.user.user import user
 from storageManager.case.caseComment.caseComment import caseComment
 
 class TestCase:
@@ -48,11 +49,11 @@ class TestCase:
 
     def test_CanCreateCommentsOnCases (self):
         newCase = case("Anyone")
-        user1 = "Maria Clara"
+        user1 = user("email", "name", "type", "password")
         comment1 = "Some comments..."
         newCase.addComment(user1, comment1)
 
-        assert newCase.comments[0].user == user1, "User that created the comment is diffenrent than expected"
+        assert newCase.comments[0].createdBy == user1.name, "User that created the comment is diffenrent than expected"
         assert newCase.comments[0].comment == comment1, "Comment created is diffenrent than expected"
     
     def test_CanPopulateCases (self):
