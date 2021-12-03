@@ -11,7 +11,6 @@ class TestCaseComment:
     comment = "Recomendo bastante"
     createdAt = utils.datetimeNow()
     newComment = caseComment(createdBy, comment, createdAt)
-    return newComment
 
   def test_CanDefineCreatedBy (self, createNewComment):
     assert createNewComment.newComment.createdBy == createNewComment.createdBy
