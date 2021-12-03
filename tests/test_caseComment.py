@@ -1,6 +1,6 @@
 import pytest
 
-from utils import utils
+# from utils import utils
 from storageManager.case.caseComment.caseComment import caseComment
 
 class TestCaseComment:
