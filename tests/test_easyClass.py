@@ -7,8 +7,8 @@ class TestEasyClass:
   def setUp(self):
     self.easyClass = easyClass()
 
-  def test_EmptyStack(self):
-    assert self.easyClass.is_empty() is True
+  def test_EmptyStack(setUp):
+    assert easyClass.is_empty() is True
 
   # def test_NotEmptyStack(self):
   #   self.easyClass.push(10)
