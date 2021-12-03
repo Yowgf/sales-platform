@@ -14,22 +14,22 @@ class TestCaseStatus:
 
     def test_DefaultStatusIsPendingAnalysisOnInitialization():
         newCase = TestCaseStatus.create_newCase()
-        assert newCase.status() == "pending analysis"
+        assert newCase.status == "pending analysis"
 
     def test_CanSetStatusToPendingResponse():
         newCase = TestCaseStatus.create_newCase()
         newCase.set(newCase.pendingResponse)
-        assert newCase.status() == "pending response"
+        assert newCase.status == "pending response"
 
     def test_CanSetStatusToUnderAnalysis():
         newCase = TestCaseStatus.create_newCase()
         newCase.set(newCase.underAnalysis)
-        assert newCase.status() == "under analysis"
+        assert newCase.status == "under analysis"
         
     def test_CanSetStatusToResolved():
         newCase = TestCaseStatus.create_newCase()
         newCase.set(newCase.resolved)
-        assert newCase.status() == "resolved"
+        assert newCase.status == "resolved"
     
     def test_InvalidCaseSetRaiseException():
         with pytest.raises(Exception):
