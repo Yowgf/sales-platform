@@ -38,7 +38,6 @@ class TestCaseStatus:
             newCase.set(invalidCase)
 
     def test_GetReturnCurrentStatus():
-        with pytest.raises(Exception):
-            newCase = TestCaseStatus.create_newCase()
-            newCase.set(newCase.resolved)
-            assert newCase.get() == "resolved"
+        newCase = TestCaseStatus.create_newCase()
+        newCase.set("resolved")
+        assert newCase.get() == "resolved"
