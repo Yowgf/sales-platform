@@ -11,7 +11,7 @@ class TestCaseComment:
    return newComment
 
   def test_CanDefineCreatedBy (self, create_newCommmet):
-    newComment = create_newCommmet;
+    newComment = create_newCommmet
     assert newComment.createdBy == "Leona Vanessa"
 
   def test_CanDefineComment (self, create_newCommmet):
