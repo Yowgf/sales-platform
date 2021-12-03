@@ -1,7 +1,7 @@
 import pytest
-from easyClass import easyClass
+from easyClass.easyClass import easyClass
 
-class TesteasyClass:
+class TestEasyClass:
 
   @pytest.fixture
   def setUp(self):
