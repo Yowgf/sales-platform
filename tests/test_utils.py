@@ -2,7 +2,6 @@ import pytest
 from utils.utils import inRange
 from utils.utils import checkAttLenInRange
 
-
 class TestInRange:
 
   def test_isInRangeMid (self):
