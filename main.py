@@ -8,8 +8,4 @@ def main():
     ui = consoleInterface(sm)
     ui.run()
 
-if __name__ == "__main__":
-    main()
-else:
-    print("Only console mode is supported")
-    exit(1)
+main()
