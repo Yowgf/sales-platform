@@ -9,8 +9,8 @@ class TestCaseComment:
   def createNewComment ():
     createdBy = "Leona Vanessa"
     comment = "Recomendo bastante"
-    createdAt = utils.datetimeNow()
-    newComment = caseComment(createdBy, comment, createdAt)
+    # createdAt = utils.datetimeNow()
+    newComment = caseComment(createdBy, comment)
 
   def test_CanDefineCreatedBy (self, createNewComment):
     assert createNewComment.newComment.createdBy == createNewComment.createdBy
@@ -18,6 +18,6 @@ class TestCaseComment:
   def test_CanDefineCommentMessage (self, createNewComment):
     assert createNewComment.newComment.comment == createNewComment.comment
 
-  def test_CanDefineCommentDatetime (self, createNewComment):
-    assert createNewComment.newComment.createdAt.formalStr == createNewComment.createdAt.formalStr
-    assert createNewComment.newComment.createdAt.prettyStr == createNewComment.createdAt.prettyStr
+  # def test_CanDefineCommentDatetime (self, createNewComment):
+  #   assert createNewComment.newComment.createdAt.formalStr == createNewComment.createdAt.formalStr
+  #   assert createNewComment.newComment.createdAt.prettyStr == createNewComment.createdAt.prettyStr
