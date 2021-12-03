@@ -1,9 +1,9 @@
 # Group
 
--
--
-- Larissa D. Gomide
-- 
+- Alexander Thomas Mol Holmquist
+- Breno Claudio de Sena Pimenta
+- Larissa Dolabella Gomide
+- Gabriel Henrique Dias Neves
 
 # sales-platform
 
