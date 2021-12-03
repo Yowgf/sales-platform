@@ -1,5 +1,5 @@
 import pytest
-from easyClass.easyClass import easyClass
+from easyClass import easyClass
 
 class TestEasyClass:
 
