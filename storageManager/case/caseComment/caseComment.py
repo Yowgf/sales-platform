@@ -1,6 +1,6 @@
 """caseComment class"""
 
-from utils import utils
+from utils import datetimeNow
 
 class caseComment:
     def __init__(self, createdBy, comment):

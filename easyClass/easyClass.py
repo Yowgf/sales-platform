@@ -1,4 +1,4 @@
-class Stack:
+class easyClass:
 
   def __init__(self):
     self.elements = []

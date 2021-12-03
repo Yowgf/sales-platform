@@ -1,36 +1,15 @@
 import pytest
-from easyClass import Stack
+from easyClass.easyClass import easyClass
 
-class TestStack:
+class TestEasyClass:
 
   @pytest.fixture
   def setUp(self):
-    self.stack = Stack()
+    self.easyClass = easyClass()
 
-  def test_EmptyStack(self):
-    self.assertTrue(self.stack.is_empty())
+  def test_EmptyStack(self, setUp):
+    assert self.easyClass.is_empty() is True
 
-  def test_NotEmptyStack(self):
-    self.stack.push(10)
-    self.assertFalse(self.stack.is_empty())
-
-  def test_SizeStack(self):
-    self.stack.push(10)
-    self.stack.push(20)
-    self.stack.push(30)
-    size = self.stack.size
-    self.assertEqual(3, size)
-
-  def test_PushPopStack(self):
-    self.stack.push(10)
-    self.stack.push(20)
-    self.stack.push(30)
-    self.stack.pop()
-    result = self.stack.pop()
-    self.assertEqual(20, result)
-
-  def test_EmptyStackException(self):
-    self.stack.push(10)
-    self.stack.pop()
-    with self.assertRaises(Exception):
-      self.stack.pop()
+  def test_NotEmptyStack(self, setUp):
+    self.easyClass.push(10)
+    assert self.easyClass.is_empty() is False
