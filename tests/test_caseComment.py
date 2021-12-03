@@ -6,17 +6,15 @@ from storageManager.case.caseComment.caseComment import caseComment
 class TestCaseComment:
 
   @pytest.fixture
-  def createNewComment ():
-    createdBy = "Leona Vanessa"
-    comment = "Recomendo bastante"
-    # createdAt = utils.datetimeNow()
-    newComment = caseComment(createdBy, comment)
+  def create_newCommmet():
+   newComment = caseComment("Leona Vanessa", "Recomendo bastante")
+   return newComment
 
-  def test_CanDefineCreatedBy (self, createNewComment):
-    assert createNewComment.newComment.createdBy == createNewComment.createdBy
+  def test_CanDefineCreatedBy (self, create_newCommmet):
+    assert create_newCommmet.createdBy == "Leona Vanessa"
 
-  def test_CanDefineCommentMessage (self, createNewComment):
-    assert createNewComment.newComment.comment == createNewComment.comment
+  def test_CanDefineComment (self, create_newCommmet):
+    assert create_newCommmet.comment == "Recomendo bastante"
 
   # def test_CanDefineCommentDatetime (self, createNewComment):
   #   assert createNewComment.newComment.createdAt.formalStr == createNewComment.createdAt.formalStr
