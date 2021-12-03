@@ -18,4 +18,4 @@ class TestCaseComment:
     assert TestCaseComment.create_newCommmet().comment == "Recomendo bastante"
 
   def test_CanDefineCommentDatetime (self):
-    assert TestCaseComment.create_newCommmet().createdAt.dt == TestCaseComment.datetime.dt
+    assert TestCaseComment.create_newCommmet().createdAt == TestCaseComment.datetime
