@@ -1,1 +1,1 @@
-from .storageManager import storageManager
+from .easyClass import easyClass
