@@ -7,7 +7,7 @@ class TestCaseComment:
 
   @pytest.fixture
   def create_newCommmet():
-   newComment = caseComment("Leona Vanessa", "Recomendo bastante")
+   newComment = caseComment.caseComment("Leona Vanessa", "Recomendo bastante")
    return newComment
 
   def test_CanDefineCreatedBy (self, create_newCommmet):
