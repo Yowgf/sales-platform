@@ -27,27 +27,27 @@ class TestCase:
             case.checkCategory(longDescription)
 
     def test_NewCasesAreCreatedWithoutComments (self):
-        newCase = case()
+        newCase = case("Anyone")
         assert len(newCase.comments) == 0
     
     def test_NewCasesAreCreatedWithNoPersonAssinged (self):
-        newCase = case()
+        newCase = case("Anyone")
         assert newCase.assignedTo == None
 
     def test_NewCasesAreCreatedWithNoTitle (self):
-        newCase = case()
+        newCase = case("Anyone")
         assert newCase.title == None
 
     def test_NewCasesAreCreatedWithNoCategory (self):
-        newCase = case()
+        newCase = case("Anyone")
         assert newCase.category == None
 
     def test_NewCasesAreCreatedWithNoDescription (self):
-        newCase = case()
+        newCase = case("Anyone")
         assert newCase.description == None
 
     def test_CanCreateCommentsOnCases (self):
-        newCase = case()
+        newCase = case("Anyone")
         user1 = "Maria Clara"
         comment1 = "Some comments..."
         newCase.addComment(user1, comment1)
@@ -56,7 +56,7 @@ class TestCase:
         assert newCase.comments[0].comment == comment1, "Comment created is diffenrent than expected"
     
     def test_CanPopulateCases (self):
-        newCase = case()
+        newCase = case("Anyone")
         title = "Some title..."
         category = "Some category..."
         description = "Some description..."
@@ -67,7 +67,7 @@ class TestCase:
         assert newCase.description == description, "Case description is diffenrent than expected"
     
     def test_CanAssignPersonToCase (self):
-        newCase = case()
+        newCase = case("Anyone")
         person = "Zerima Asoit"
         newCase.assignedTo(person)
         assert newCase.assignedTo == person
