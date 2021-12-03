@@ -1,5 +1,5 @@
 """caseComment class"""
-
+import datetime
 from utils import utils
 
 class caseComment:
@@ -7,4 +7,4 @@ class caseComment:
         self.createdBy = createdBy
         self.comment = comment
         
-        self.createdAt = datetimeNow()
+        self.createdAt = datetime.datetime.now()
