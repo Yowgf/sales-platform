@@ -2,13 +2,12 @@
 
 - Alexander Thomas Mol Holmquist
 - Breno Claudio de Sena Pimenta
-- Larissa Dolabella Gomide
 - Gabriel Henrique Dias Neves
+- Larissa Dolabella Gomide
 
 # sales-platform
 
 Platform for a sales team to manage client cases.
-
 
 # How to run
 
@@ -35,3 +34,14 @@ Currently, the storageManager just contains some mock data for the users, and do
 Furthermore, the only way to access the application at the moment is through the console.
 
 # Technology overview
+ 
+During the developement of the code, we choosed to use Python version 3.8 or above, and Pytest framework for tests. The tests run automatically when upload new code to Github, or it can run localy using
+
+```
+python -m pytest
+```
+or
+
+```
+pytest
+```
