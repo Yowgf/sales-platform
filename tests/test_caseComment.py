@@ -1,13 +1,13 @@
 import pytest
 
 # from utils import utils
-from storageManager.case.caseComment.caseComment import caseComment
+from storageManager.case.caseComment import caseComment
 
 class TestCaseComment:
 
   @pytest.fixture
   def create_newCommmet():
-   newComment = caseComment.caseComment("Leona Vanessa", "Recomendo bastante")
+   newComment = caseComment("Leona Vanessa", "Recomendo bastante")
    return newComment
 
   def test_CanDefineCreatedBy (self, create_newCommmet):
