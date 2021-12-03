@@ -1,3 +1,10 @@
+# Group
+
+-
+-
+- Larissa D. Gomide
+- 
+
 # sales-platform
 
 Platform for a sales team to manage client cases.
@@ -26,3 +33,5 @@ The code is divided into two parts: userInterface (front end) and storageManager
 Currently, the storageManager just contains some mock data for the users, and does not persist memory in any way. In the future, we would like to include some kind of database connection, so that data is persisted through application runs.
 
 Furthermore, the only way to access the application at the moment is through the console.
+
+# Technology overview
