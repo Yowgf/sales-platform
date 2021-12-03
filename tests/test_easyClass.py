@@ -10,9 +10,9 @@ class TestEasyClass:
   def test_EmptyStack(self, setUp):
     assert self.easyClass.is_empty() is True
 
-  # def test_NotEmptyStack(self):
-  #   self.easyClass.push(10)
-  #   self.assertFalse(self.easyClass.is_empty())
+  def test_NotEmptyStack(self, setUp):
+    self.easyClass.push(10)
+    assert self.easyClass.is_empty() is False
 
   # def test_SizeStack(self):
   #   self.easyClass.push(10)
