@@ -14,6 +14,10 @@ class case:
         self.category = None
         self.description = None
         
+        self.titleValidRange = (1, 30)
+        self.categoryValidRange = (1, 20)
+        self.descriptionValidRange = (1, 1000)
+        
         self.createdAt = utils.datetimeNow()
         self.status = caseStatus()
         self.comments = []
@@ -24,16 +28,13 @@ class case:
         self.description = description
     
     def checkTitle(self, title):
-        titleValidLenRange = (1, 30)
-        utils.checkAttLenInRange("title", title, titleValidLenRange)
+        utils.checkAttLenInRange("title", title, self.titleValidRange)
         
     def checkCategory(self, category):
-        categoryValidLenRange = (1, 20)
-        utils.checkAttLenInRange("category", category, categoryValidLenRange)
+        utils.checkAttLenInRange("category", category, self.categoryValidRange)
     
     def checkDescription(self, description):
-        descriptionValidLenRange = (1, 1000)
-        utils.checkAttLenInRange("description", description, descriptionValidLenRange)
+        utils.checkAttLenInRange("description", description, self.descriptionValidRange)
     
     def addComment(self, user, comment):
         self.comments.append(caseComment(user.name, comment))
@@ -55,7 +56,7 @@ class case:
         stringifiedCase += "Description: {}\n".format(self.description)
 
         # Comments have to be printed out one by one
-        stringifiedCase += "\nComments:\n"
+        stringifiedCase += "Comments:\n"
         if len(self.comments) > 0:
             stringifiedCase += "\n"
         for comment in self.comments:
