@@ -1,7 +1,7 @@
 import pytest
 
 from utils import utils
-from case.caseComment.caseComment import caseComment
+from storageManager.case.caseComment.caseComment import caseComment
 
 class TestCaseComment:
 
