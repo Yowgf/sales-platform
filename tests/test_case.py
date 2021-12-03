@@ -10,6 +10,21 @@ class TestCase:
         newCase = case()
         return newCase
     
+    def makeLongWord(size):
+        return '1'*size
+    
     def test_longTitleRaiseException(self):
         with pytest.raises(Exception):
-            case.checkTitle("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15.")
+            longTitle = TestCase.makeLongWord(30)
+            case.checkTitle(longTitle)
+    
+    
+    def test_longCategoryRaiseException(self):
+        with pytest.raises(Exception):
+            longCategory = TestCase.makeLongWord(20)
+            case.checkCategory(longCategory)
+
+    def test_longDescriptionRaiseException(self):
+        with pytest.raises(Exception):
+            longDescription = TestCase.makeLongWord(1000)
+            case.checkCategory(longDescription)
