@@ -10,7 +10,7 @@ class TestCaseStatus:
     
     def test_DefaultStatusIsPendingAnalysis():
         newCase = TestCaseStatus.create_newCase()
-        assert newCase.defaultStatus() == "pending analysis"
+        assert newCase.defaultStatus == "pending analysis"
 
     def test_DefaultStatusIsPendingAnalysisOnInitialization():
         newCase = TestCaseStatus.create_newCase()
