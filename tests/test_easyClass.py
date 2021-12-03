@@ -5,7 +5,7 @@ class TestEasyClass:
 
   @pytest.fixture
   def setUp(self):
-    self.easyClass = easyClass()
+    return easyClass()
 
   def test_EmptyStack(setUp):
     assert easyClass.is_empty() is True
