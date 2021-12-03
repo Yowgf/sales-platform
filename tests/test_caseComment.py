@@ -4,9 +4,11 @@ from utils import utils
 from storageManager.case.caseComment.caseComment import caseComment
 
 class TestCaseComment:
+  
+  datetime = utils.datetime.now()
 
   def create_newCommmet():
-   newComment = caseComment("Leona Vanessa", "Recomendo bastante", "2021-12-03 18:34:27.041293")
+   newComment = caseComment("Leona Vanessa", "Recomendo bastante", TestCaseComment.datetime)
    return newComment
 
   def test_CanDefineCreatedBy (self):
@@ -16,4 +18,4 @@ class TestCaseComment:
     assert TestCaseComment.create_newCommmet().comment == "Recomendo bastante"
 
   def test_CanDefineCommentDatetime (self):
-    assert TestCaseComment.create_newCommmet().createdAt.dt == "2021-12-01 18:32:45.623971"
+    assert TestCaseComment.create_newCommmet().createdAt.dt == TestCaseComment.datetime.dt

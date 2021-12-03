@@ -3,8 +3,8 @@ from datetime import datetime
 from errors.InvalidLength import InvalidLength
 
 class datetimeNow():
-    def __init__(self, dt = datetime.now()):
-        self.dt = dt
+    def __init__(self):
+        self.dt = datetime.now()
 
     def formalStr(self):
         return self.dt.isoformat()
