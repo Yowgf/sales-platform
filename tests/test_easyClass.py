@@ -1,7 +1,7 @@
 import pytest
 from . import easyClass
 
-class TestStack:
+class TesteasyClass:
 
   @pytest.fixture
   def setUp(self):
