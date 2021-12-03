@@ -70,5 +70,5 @@ class TestCase:
     def test_CanAssignPersonToCase (self):
         newCase = case("Anyone")
         person = "Zerima Asoit"
-        newCase.assignedTo(person)
+        newCase.assignTo(person)
         assert newCase.assignedTo == person
