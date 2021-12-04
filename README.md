@@ -1,13 +1,13 @@
+# Sales Platform
+
+Platform for a sales team to manage client cases.
+
 # Group
 
 - Alexander Thomas Mol Holmquist
 - Breno Claudio de Sena Pimenta
 - Gabriel Henrique Dias Neves
 - Larissa Dolabella Gomide
-
-# sales-platform
-
-Platform for a sales team to manage client cases.
 
 # How to run
 
@@ -19,7 +19,7 @@ In linux:
 python3 main.py
 ```
 
-In Windows (not tested):
+In Windows:
 
 ```shell
 python main.py
@@ -27,7 +27,9 @@ python main.py
 
 # Code overview
 
-The code is divided into two parts: userInterface (front end) and storageManager (_kind of_ a back end).
+The software simulates a platform that clients and sellers exchange messages about a case that need to be solved by the seller's team. It is possible to assign cases between the team and to change the status of the cases while it being solved. The clients can rate the sellers every time they send a message to them. It is possible to check each seller average rating. 
+
+Since the focus is for testing a software, the interface is really simple and runs on the terminal. The code is divided into two parts: userInterface (front end) and storageManager (_kind of_ a back end).
 
 Currently, the storageManager just contains some mock data for the users, and does not persist memory in any way. In the future, we would like to include some kind of database connection, so that data is persisted through application runs.
 
@@ -45,3 +47,5 @@ or
 ```
 pytest
 ```
+
+The workflow is configured to run tests on MacOS, Windows and Ubuntu.
