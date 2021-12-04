@@ -29,11 +29,25 @@ python main.py
 
 The software simulates a platform that clients and sellers exchange messages about a case that need to be solved by the seller's team. It is possible to assign cases between the team and to change the status of the cases while it being solved. The clients can rate the sellers every time they send a message to them. It is possible to check each seller average rating. 
 
-Since the focus is for testing a software, the interface is really simple and runs on the terminal. The code is divided into two parts: userInterface (front end) and storageManager (_kind of_ a back end).
+Since the focus is for testing a software, the interface is really simple and runs on the console. The code is divided into two parts: userInterface (front end) and storageManager (_kind of_ a back end).
 
 Currently, the storageManager just contains some mock data for the users, and does not persist memory in any way. In the future, we would like to include some kind of database connection, so that data is persisted through application runs.
 
 Furthermore, the only way to access the application at the moment is through the console.
+
+To use the application use the following login information:
+
+Seller Login:
+```
+user: s
+passwaord: s
+```
+
+Client Login:
+```
+user: c
+passwaord: c
+```
 
 # Technology overview
  
