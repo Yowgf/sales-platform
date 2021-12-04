@@ -61,7 +61,7 @@ class storageManager:
 
     def newCase(self):
         caseId = self.findIdNotIn(self.cases.keys())
-        c = case(self.currentUser)
+        c = case(caseId, self.users[self.currentUser.name])
         self.cases[caseId] = c
         return c
             
@@ -84,6 +84,8 @@ class storageManager:
             raise ValueError("Unsupported user type {}".format(userType))
 
     def assignCaseTo(self, case, salesUser):
+        if case.rate != None:
+            salesUser.updateRate(case.caseId, case.rate)
         case.assignTo(salesUser)
         
     def getAllCaseStatuses(self):
@@ -91,4 +93,11 @@ class storageManager:
     
     def setCaseStatus(self, case, status):
         return case.status.set(status)
-        
+    
+    # Checks if rate is in valid range and sets it
+    def setRate(self, case, rate):
+        rate = int(rate)
+        case.checkRate(rate)
+        if case.assignedTo != None:
+            case.updateUserRates(rate)
+        return case.setRate(rate)

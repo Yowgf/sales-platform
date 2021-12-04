@@ -13,7 +13,7 @@ class TestCase:
 
     @pytest.fixture
     def newCase(self):
-        return case("Anyone")
+        return case("caseId", "Anyone")
     
     def makeWord(size):
         return '1'*size
@@ -84,7 +84,7 @@ class TestCase:
         comment1 = "Some comments..."
         newCase.addComment(user1, comment1)
 
-        assert newCase.comments[0].createdBy == user1.name, "User that created the comment is different than expected"
+        assert newCase.comments[0].createdBy.name == user1.name, "User that created the comment is different than expected"
         assert newCase.comments[0].comment == comment1, "Comment created is different than expected"
     
     def test_CanPopulateCases (self, newCase):

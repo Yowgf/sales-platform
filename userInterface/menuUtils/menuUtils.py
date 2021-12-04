@@ -1,6 +1,7 @@
 """menuUtils class"""
 
 from errors.InvalidLength import InvalidLength
+from errors.InvalidValue import InvalidValue
 
 class menuUtils:
     def __init__(self, console):
@@ -8,9 +9,7 @@ class menuUtils:
         
         # It might be a good idea to NOT hardcode this number here, somehow.
         self.numLinesStartHeader = 3
-        
-        # Menu choices
-        
+
         # The quit option should be available in all default menus.
         self.quitFlag = "Quit menu"
         
@@ -42,7 +41,7 @@ class menuUtils:
                 inStr = self.console.input(inputMessage)
                 checkFunc(inStr)
                 break
-            except (ValueError, InvalidLength) as err:
+            except (ValueError, InvalidLength, InvalidValue) as err:
                 oopsMessage = "\nOops: {}\n".format(err)
                 if oneAttemptWrong:
                      self.console.clear(self.console.countLines(oopsMessage))
@@ -157,5 +156,4 @@ class menuUtils:
         chosenCase = cases[chosenIdx]
         
         return chosenCase
-    
     
