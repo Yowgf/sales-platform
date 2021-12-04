@@ -8,6 +8,7 @@ from storageManager.user.user import user
 from storageManager.case.caseComment.caseComment import caseComment
 
 from errors.InvalidLength import InvalidLength
+from errors.InvalidValue import InvalidValue
 
 class TestCase:
 
@@ -18,26 +19,30 @@ class TestCase:
     def makeWord(size):
         return '1'*size
     
-    def checkNotRaiseException(word, func):
+    def checkNotRaiseException(val, func):
         try:
-            func(word)
-        except InvalidLength:
-            assert False, "Should not have raised the invalid length exception"
+            func(val)
+        except (InvalidLength, InvalidValue) as err:
+            assert False, "Should not have raised the exception"
             
-    def checkRaiseException(word, func):
+    def checkRaiseExceptionIL(word, func):
         with pytest.raises(InvalidLength):
             func(word)
-    
+            
+    def checkRaiseExceptionIV(val, func):
+        with pytest.raises(InvalidValue):
+            func(val)
+            
     def test_normalTitleNotRaiseException(self, newCase):
         TestCase.checkNotRaiseException(TestCase.makeWord(newCase.titleValidRange[1] - 1),
                                newCase.checkTitle)
     
     def test_smallTitleRaiseException(self, newCase):
-        TestCase.checkRaiseException(TestCase.makeWord(newCase.titleValidRange[0] - 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.titleValidRange[0] - 1),
                                     newCase.checkTitle)
             
     def test_longTitleRaiseException(self, newCase):
-        TestCase.checkRaiseException(TestCase.makeWord(newCase.titleValidRange[1] + 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.titleValidRange[1] + 1),
                                     newCase.checkTitle)
     
     def test_normalCategoryNotRaiseException(self, newCase):
@@ -45,11 +50,11 @@ class TestCase:
                                newCase.checkCategory)
             
     def test_smallCategoryRaiseException(self, newCase):
-        TestCase.checkRaiseException(TestCase.makeWord(newCase.categoryValidRange[0] - 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.categoryValidRange[0] - 1),
                                newCase.checkCategory)
             
     def test_longCategoryRaiseException(self, newCase):
-        TestCase.checkRaiseException(TestCase.makeWord(newCase.categoryValidRange[1] + 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.categoryValidRange[1] + 1),
                                newCase.checkCategory)
         
     def test_normalDescriptionRaiseException(self, newCase):
@@ -57,13 +62,22 @@ class TestCase:
                                newCase.checkDescription)
             
     def test_smallDescriptionRaiseException(self, newCase):
-        TestCase.checkRaiseException(TestCase.makeWord(newCase.descriptionValidRange[0] - 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.descriptionValidRange[0] - 1),
                                newCase.checkDescription)
         
     def test_longDescriptionRaiseException(self, newCase):
-        TestCase.checkRaiseException(TestCase.makeWord(newCase.descriptionValidRange[1] + 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.descriptionValidRange[1] + 1),
                                newCase.checkDescription)
-
+        
+    def test_normalRateRaiseException(self, newCase):
+        TestCase.checkNotRaiseException(newCase.rateValidRange[1] - 1, newCase.checkRate)
+            
+    def test_smallRateRaiseException(self, newCase):
+        TestCase.checkRaiseExceptionIV(newCase.rateValidRange[0] - 1, newCase.checkRate)
+        
+    def test_longRateRaiseException(self, newCase):
+        TestCase.checkRaiseExceptionIV(newCase.rateValidRange[1] + 1, newCase.checkRate)
+        
     def test_NewCasesAreCreatedWithoutComments (self, newCase):
         assert len(newCase.comments) == 0
     
@@ -78,6 +92,9 @@ class TestCase:
 
     def test_NewCasesAreCreatedWithNoDescription (self, newCase):
         assert newCase.description == None
+        
+    def test_NewCasesAreCreatedWithNoRate (self, newCase):
+        assert newCase.rate == None
 
     def test_CanCreateCommentsOnCases (self, newCase):
         user1 = user("email", "name", "type", "password")
@@ -101,6 +118,22 @@ class TestCase:
         person = "Zerima Asoit"
         newCase.assignTo(person)
         assert newCase.assignedTo == person
+        
+    def test_CanUpdateUserRates (self, newCase):
+        # Add comment and assign to someone
+        sampleUser = user("email", "name", "type", "password")
+        newCase.addComment(sampleUser, "comment")
+        newCase.assignTo(sampleUser)
+        
+        # Before
+        assert newCase.assignedTo.averageRate == None
+        
+        # Rate case
+        newCase.updateUserRates(5)
+        
+        # After
+        assert newCase.assignedTo.averageRate == 5
+        assert newCase.comments[0].createdBy.averageRate == 5
         
     def test_StringifyContainsEssentialSubstrings(self, newCase):
         for word in ["Status", "Title", "Category", "Description", "Comments"]:
