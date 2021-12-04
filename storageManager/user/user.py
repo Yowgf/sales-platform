@@ -25,7 +25,8 @@ class user:
             caseIdIndex = [r.caseId for r in self.ratesList].index(caseId)
         except ValueError:
             self.ratesList.append(userRate(caseId, rate))
-            return
+            self.averageRate = mean([r.rate for r in self.ratesList])
+            return self
         
         self.ratesList[caseIdIndex].rate = rate
         self.averageRate = mean([r.rate for r in self.ratesList])
