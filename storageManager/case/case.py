@@ -17,10 +17,12 @@ class case:
         self.titleValidRange = (1, 30)
         self.categoryValidRange = (1, 20)
         self.descriptionValidRange = (1, 1000)
+        self.rateValidRange = (1, 5)
         
         self.createdAt = utils.datetimeNow()
         self.status = caseStatus()
         self.comments = []
+        self.rate = 0
     
     def populate(self, title, category, description):
         self.title = title
@@ -35,12 +37,18 @@ class case:
     
     def checkDescription(self, description):
         utils.checkAttLenInRange("description", description, self.descriptionValidRange)
+
+    def checkRate(self,rate):
+        utils.isRange(self.rate,self.rateRange)
     
     def addComment(self, user, comment):
         self.comments.append(caseComment(user.name, comment))
         
     def assignTo(self, salesUser):
         self.assignedTo = salesUser
+
+    def setRate(self, rate):
+        self.rate = rate
     
     def __str__(self):
         stringifiedCase = ""
@@ -66,3 +74,4 @@ class case:
 
         return stringifiedCase
         
+

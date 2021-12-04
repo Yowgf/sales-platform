@@ -11,9 +11,6 @@ class TestCaseStatus:
     def test_DefaultStatusIsPendingAnalysis(self, newCase):
         assert newCase.defaultStatus == "pending analysis"
 
-    def test_DefaultStatusIsPendingAnalysisOnInitialization(self, newCase):
-        assert newCase.status == "pending analysis"
-
     def test_CanSetStatusToPendingResponse(self, newCase):
         newCase.set(newCase.pendingResponse)
         assert newCase.status == "pending response"
