@@ -64,4 +64,4 @@ pytest
 
 The workflow is configured to run tests on MacOS, Windows and Ubuntu.
 
-![Build Status](https://github.com/Yowgf/sales-platform/blob/master/.github/workflows/python-package.yml/badge.svg)
+[![Build Status](https://github.com/Yowgf/sales-platform/blob/master/.github/workflows/python-package.yml/badge.svg)](https://github.com/Yowgf/sales-platform/actions)
