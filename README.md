@@ -64,6 +64,4 @@ pytest
 
 The workflow is configured to run tests on MacOS, Windows and Ubuntu.
 
-![Build Status](https://img.shields.io/appveyor/build/Yowgf/sales-platform)
-
-[![](https://img.shields.io/appveyor/tests/Yowgf/sales-platform)
+![Build Status](https://github.com/Yowgf/sales-platform/blob/master/.github/workflows/python-package.yml/badge.svg)
