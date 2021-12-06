@@ -27,6 +27,7 @@ class consoleInterface:
         self.createCaseChoice = "Create case"
         self.assignCaseChoice = "Assign case to me"
         self.setCaseStatusChoice = "Set case status"
+        self.rateCaseChoice = "Rate case"
 
     def run(self):
         menuException = None
@@ -43,6 +44,10 @@ class consoleInterface:
                 # Quit for good
                 if menuException == self.quitFlag:
                     return 
+        
+################################################################################
+# Main menu
+################################################################################
 
     # startMenu handles the start menu of the application.
     def startMenu(self):
@@ -52,83 +57,14 @@ class consoleInterface:
         # In case some error occurred or the user quitted, we stop here.
         if not loginSuccess:
             return self.quitFlag
-        
-    # Print each case and wait to leave.
-    def handleSeeCases(self, userType):
-        cases = self.menu.fetchAndSeeCases(self.sm, userType)
-        if cases == None:
-            return
-        self.menu.pressEnterToLeave()
-    
-    # Ask for case information and send the information to storage manager
-    def handleCreateCase(self):
-        # Print case creation header
-        self.console.print("Case creation\n")
-        
-        case = self.sm.newCase()
-        
-        title = self.menu.attemptConsoleInput("Case title: ", case.checkTitle)
-        category = self.menu.attemptConsoleInput("Case category: ", case.checkCategory)
-        description = self.menu.attemptConsoleInput("Case description: ", case.checkDescription)
-        
-        case.populate(title, category, description)          
-        
-        self.menu.pressEnterToLeave()
-        
-    def handleCommentCase_Phase2(self, chosenCase):
-        self.console.print("You chose to alter the following case:\n")
-        self.console.print(chosenCase)
-        self.menu.pressEnterToContinue()
-        
-        self.menu.attemptConsoleInput("Write your comment here (press enter to end): ",
-                                 lambda inStr: self.sm.addCaseComment(chosenCase, inStr)
-                                )
-        self.console.clearAll()
 
-    def handleCommentCase(self):
-        chosenCase = self.menu.chooseCase(self.sm, self.sm.currentUser.type) 
-        if chosenCase == None:
-            return None
-        
-        self.handleCommentCase_Phase2(chosenCase)
-    
-    def handleAssignCase(self):
-        chosenCase = self.menu.chooseCase(self.sm, self.sm.userType_all) 
-        if chosenCase == None:
-            return None
-        
-        self.sm.assignCaseTo(chosenCase, self.sm.currentUser)
-    
-    # This is the second screen displayed when trying to set a case's status.
-    def handleSetCaseStatus_Phase2(self, chosenCase):
-        self.console.print("You chose to alter the following case:\n")
-        self.console.print(chosenCase)
-        self.menu.pressEnterToContinue()
-        
-        self.console.print("Available statuses:\n")
-        self.menu.printConsoleMenu(self.sm.getAllCaseStatuses())
-        self.menu.attemptConsoleInput("Choose one status: ",
-                                 lambda statusIdx:
-                                     self.sm.setCaseStatus(chosenCase, 
-                                                           chosenCase.status.allStatuses[int(statusIdx)-1])
-                                )
-        self.console.clearAll()
-    
-    # This is the UI for the user to change a case's status.
-    def handleSetCaseStatus(self):
-        chosenCase = self.menu.chooseCase(self.sm, self.sm.currentUser.type) 
-        if chosenCase == None:
-            return None
-        
-        self.console.clearAll()
-        self.handleSetCaseStatus_Phase2(chosenCase)
-    
     def handleMainMenuOptions_customer(self):
         choice = self.menu.handleMenu(
             [
                 self.seeCasesChoice,
                 self.commentCaseChoice,
                 self.createCaseChoice,
+                self.rateCaseChoice,
             ]
         )
         if choice == self.quitFlag:
@@ -139,6 +75,8 @@ class consoleInterface:
             self.handleCommentCase()
         elif choice == self.createCaseChoice:
             self.handleCreateCase()
+        elif choice == self.rateCaseChoice:
+            self.handleRateCase()
     
     def handleMainMenuOptions_sales(self):
         choice = self.menu.handleMenu(
@@ -179,3 +117,92 @@ class consoleInterface:
             menuException = menufunc()
         
         return menuException
+
+################################################################################
+# Secondary menus
+################################################################################
+
+    # Print each case and wait to leave.
+    def handleSeeCases(self, userType):
+        cases = self.menu.fetchAndSeeCases(self.sm, userType)
+        if cases == None:
+            return
+        self.menu.pressEnterToLeave()
+    
+    # Ask for case information and send the information to storage manager
+    def handleCreateCase(self):
+        # Print case creation header
+        self.console.print("Case creation\n")
+        
+        case = self.sm.newCase()
+        
+        title = self.menu.attemptConsoleInput("Case title: ", case.checkTitle)
+        category = self.menu.attemptConsoleInput("Case category: ", case.checkCategory)
+        description = self.menu.attemptConsoleInput("Case description: ", case.checkDescription)
+        
+        case.populate(title, category, description)          
+        
+        self.menu.pressEnterToLeave()
+        
+    def handleCommentCase(self):
+        chosenCase = self.handleAlterCase(self.sm, self.sm.currentUser.type) 
+        if chosenCase == None:
+            return None
+                
+        self.menu.attemptConsoleInput("Write your comment here (press enter to end): ",
+                                 lambda inStr: self.sm.addCaseComment(chosenCase, inStr)
+                                )
+        self.console.clearAll()
+    
+    def handleAssignCase(self):
+        chosenCase = self.menu.chooseCase(self.sm, self.sm.userType_all) 
+        if chosenCase == None:
+            return None
+        
+        self.sm.assignCaseTo(chosenCase, self.sm.currentUser)
+    
+    # This is the UI for the user to change a case's status.
+    def handleSetCaseStatus(self):
+        chosenCase = self.handleAlterCase(self.sm, self.sm.currentUser.type) 
+        if chosenCase == None:
+            return None
+        
+        self.console.print("Available statuses:\n")
+        self.menu.printConsoleMenu(self.sm.getAllCaseStatuses())
+        self.menu.attemptConsoleInput("Choose one status: ",
+                                 lambda statusIdx:
+                                     self.sm.setCaseStatus(chosenCase, 
+                                                           chosenCase.status.allStatuses[int(statusIdx)-1])
+                                )
+        self.console.clearAll()
+    
+    # "Rate case" sequence of screens
+    def handleRateCase(self):
+        chosenCase = self.handleAlterCase(self.sm, self.sm.currentUser.type) 
+        if chosenCase == None:
+            return None
+        
+        chosenNumber = self.menu.attemptConsoleInput(
+            "Please type your rate (must be a number from {} to {}): "
+            .format(chosenCase.rateValidRange[0], 
+                    chosenCase.rateValidRange[1]),
+            lambda inStr: self.sm.setRate(chosenCase, inStr),
+        )
+        self.console.clearAll()
+
+################################################################################
+# Utility methods that may cover multiple screens
+################################################################################
+
+    def handleAlterCase(self, sm, userType):
+        chosenCase = self.menu.chooseCase(sm, userType) 
+        if chosenCase == None:
+            return None
+        
+        self.console.print("You chose to alter the following case:\n")
+        self.console.print(chosenCase)
+        self.menu.pressEnterToContinue()
+        
+        self.console.clearAll()
+        
+        return chosenCase
