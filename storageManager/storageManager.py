@@ -10,10 +10,10 @@ from uuid import uuid4
 from .case import case
 from .case.caseStatus import caseStatus
 from .user import user
+from .dbi.dbi import dbi
 
 class storageManager:
-    # TODO: make users and cases data persistent in a database -aholmquist 2021-11-29
-    def __init__(self):
+    def __init__(self, config):
         self.cases = {}
         
         self.userType_customer = "customer"
@@ -29,6 +29,8 @@ class storageManager:
         }
         
         self.currentUser = None
+
+        self.db = dbi(config)
 
     # login returns True if login succeded, or False otherwise.
     def login(self, email, password):
