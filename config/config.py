@@ -2,7 +2,7 @@
 
 import yaml
 
-from utils.utils import safeMapVal
+from utils.utils import setIfExists
 
 from .errors.malformedFlag import malformedFlag
 from .errors.malformedConnOpts import malformedConnOpts
@@ -10,18 +10,8 @@ from .errors.nonExistantFlag import nonExistantFlag
 from .errors.missingFlags import missingFlags
 
 class config:
-    flags = ["host", "port", "database", "user", "password", "connOpts"]
+    flags = ["config-file", "host", "port", "database", "user", "password", "connOpts"]
     requiredFlags = ["host", "port", "database", "user", "password"]
-
-    def sampleConfig():
-        return config([
-            "-host=127.0.0.1",
-            "-port=1521",
-            "-database=exampleDatabase",
-            "-user=exampleUser",
-            "-password=examplePassword",
-            "-connOpts=sslmode=disable",
-        ])
 
     def __init__(self, configArg):
         self.C = {}
@@ -33,14 +23,11 @@ class config:
         self.password = ""
         self.connOpts = ""
 
-        # Parse from list of arguments
-        if isinstance(configArg, list):
-            self.C = config.parseList(configArg)
         # Parse from yaml file
-        if isinstance(configArg, str):
-            self.C = config.parseFile(configArg)
+        self.C = self.update(self.C, config.parseFile(configArg))
         
-        self.setConfig(self.C)
+        # Parse from list of arguments
+        self.C = self.update(self.C, config.parseList(configArg))
 
         self.checkMissingFlags(self.C)
 
@@ -69,20 +56,33 @@ class config:
                 C[flag] = value
         return C
 
-    def parseFile(configFilePath):
+    def parseFile(configArg):
+        configFile = "config.yaml"
+        parsedList = config.parseList(configArg)
+        configFile = setIfExists(configFile, parsedList, "config-file")
+
         C = None
-        with open(configFilePath) as f:
+        with open(configFile) as f:
             C = yaml.load(f, Loader=yaml.FullLoader)
 
         return C
 
+    def update(self, old, new):
+        definitive = old
+        for k in new.keys():
+            definitive[k] = new[k]
+
+        self.setConfig(definitive)
+
+        return definitive
+
     def setConfig(self, C):
-        self.host = safeMapVal(C, "host")
-        self.port = safeMapVal(C, "port")
-        self.database = safeMapVal(C, "database")
-        self.user = safeMapVal(C, "user")
-        self.password = safeMapVal(C, "password")
-        self.connOpts = safeMapVal(C, "connOpts")
+        self.host = setIfExists(self.host, C, "host")
+        self.port = setIfExists(self.port, C, "port")
+        self.database = setIfExists(self.database, C, "database")
+        self.user = setIfExists(self.user, C, "user")
+        self.password = setIfExists(self.password, C, "password")
+        self.connOpts = setIfExists(self.connOpts, C, "connOpts")
 
     def checkMissingFlags(self, C):
         # Build a message containing all missing flags

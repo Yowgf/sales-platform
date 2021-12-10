@@ -5,6 +5,14 @@ from numpy import mean
 from .userRate.userRate import userRate
 
 class user:
+    dbCols = {
+        "email": "varchar(50) primary key",
+        "name": "varchar(50)",
+        "type": "varchar(15)",
+        "password": "varchar(20)",
+        # "ratesListId": "int references rates(id)"
+    }
+
     def __init__(self, email, name, type, password):
         self.email = email
         self.name = name

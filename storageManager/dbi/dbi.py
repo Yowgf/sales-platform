@@ -32,5 +32,23 @@ class dbi:
     def close(self):
         self.conn.close()
 
-    def query(self):
-        pass
+    def query(self, queryStr):
+        cur = self.conn.cursor()
+        cur.execute(queryStr)
+        results = None
+        if cur.rowcount > 0:
+            results = cur.fetchall()
+        cur.close()
+        return results
+
+    def dropTable(self, tableName):
+        self.query(f"DROP TABLE IF EXISTS {tableName}")
+
+    def createTable(self, tableName, colSpec):
+        createQuery = f"CREATE TABLE IF NOT EXISTS {tableName}"
+        createQuery += "("
+        for (colName, colType) in zip(colSpec.keys(), colSpec.values()):
+            createQuery += "{} {},".format(colName, colType)
+        createQuery = createQuery[:-1] # Remove last comma
+        createQuery += ")"
+        self.query(createQuery)

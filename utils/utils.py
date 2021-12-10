@@ -25,6 +25,7 @@ def checkAttLenInRange(attName, val, rng):
     if not inRange(len(val), rng):
         raise InvalidLength(attName, rng)
 
-def safeMapVal(m, k):
+def setIfExists(original, m, k):
     if k in m.keys():
         return m[k]
+    return original

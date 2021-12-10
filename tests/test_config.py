@@ -1,11 +1,11 @@
 import pytest
 
-from config.config import config
+from utils.testutils import sampleConfig as sample
 
 class TestConfig:
     @pytest.fixture
     def sampleConfig(self):
-        return config.sampleConfig()
+        return sample()
 
     def test_ConfigInit(self, sampleConfig):
         assert sampleConfig.host == "127.0.0.1"

@@ -7,13 +7,20 @@ having to import an internal package from the UI.
 
 from uuid import uuid4
 
+from storageManager.case.caseComment.caseComment import caseComment
+
 from .case import case
 from .case.caseStatus import caseStatus
 from .user import user
 from .dbi.dbi import dbi
 
 class storageManager:
+    caseTable = "cases"
+    commentTable = "comments"
+    userTable = "users"
+
     def __init__(self, config):
+        self.config = config
         self.cases = {}
         
         self.userType_customer = "customer"
@@ -21,16 +28,15 @@ class storageManager:
         self.userType_all = "all" # Artificial wildcard user type
         self.userTypes = [self.userType_customer, self.userType_sales, self.userType_all]
         
-        self.users = {
-            "daniel@email.com": user("daniel@email.com", "Daniel", "customer", "password321"),
-            "joseph@email.com": user("joseph@email.com", "Joseph", "sales", "password123"),
-            "c": user("c", "c", "customer", "c"),
-            "s": user("s", "s", "sales", "s"),
-        }
+        self.users = {}
         
         self.currentUser = None
 
-        self.db = dbi(config)
+        self.db = None
+
+    def __del__(self):
+        if self.db != None:
+            self.db.close()
 
     # login returns True if login succeded, or False otherwise.
     def login(self, email, password):
@@ -103,3 +109,19 @@ class storageManager:
         if case.assignedTo != None:
             case.updateUserRates(rate)
         return case.setRate(rate)
+
+    def initFromDatabase(self):
+        self.db = dbi(self.config)
+        self.db.connect()
+        self.createDatabaseTables(self.db)
+        self.populateFromDatabase(self.db)
+
+    def createDatabaseTables(self, db):
+        db.createTable(storageManager.commentTable, caseComment.dbCols)
+        # db.createTable(storageManager.rateTable, case.dbCols)
+        db.createTable(storageManager.caseTable, case.dbCols)
+        db.createTable(storageManager.userTable, user.dbCols)
+
+    def populateFromDatabase(self, db):
+        self.cases = db.query(f"SELECT * FROM {storageManager.caseTable}")
+        self.users = db.query(f"SELECT * FROM {storageManager.userTable}")
