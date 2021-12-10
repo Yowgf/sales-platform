@@ -1,12 +1,10 @@
-from sys import argv
+from sys import exit
 
-from config.config import config
 from userInterface import consoleInterface
 from storageManager import storageManager
 
 def main():
-    cfg = config(argv)
-    sm = storageManager(cfg)
+    sm = storageManager()
     ui = consoleInterface(sm)
     ui.run()
     

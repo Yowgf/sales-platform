@@ -6,21 +6,7 @@ from utils import utils
 from .caseStatus import caseStatus
 from .caseComment import caseComment
 
-class case:       
-    titleValidRange = (1, 50)
-    categoryValidRange = (1, 20)
-    descriptionValidRange = (1, 1000)
-    rateValidRange = (1, 5)
-
-    dbCols = {
-        "id": "varchar(32) primary key",
-        "createdBy": "varchar(50)",
-        "assignedTo": "varchar(50)",
-        "title": "varchar({})".format(titleValidRange[1]),
-        "description": "varchar({})".format(descriptionValidRange[1]),
-        "rate": "int",
-    }
-
+class case:
     def __init__(self, caseId, createdBy):
         self.caseId = caseId
         self.createdBy = createdBy
@@ -30,7 +16,11 @@ class case:
         self.category = None
         self.description = None
         self.rate = None
- 
+        
+        self.titleValidRange = (1, 30)
+        self.categoryValidRange = (1, 20)
+        self.descriptionValidRange = (1, 1000)
+        self.rateValidRange = (1, 5)
         
         self.createdAt = utils.datetimeNow()
         self.status = caseStatus()
@@ -44,16 +34,16 @@ class case:
         return self
     
     def checkTitle(self, title):
-        utils.checkAttLenInRange("title", title, case.titleValidRange)
+        utils.checkAttLenInRange("title", title, self.titleValidRange)
         
     def checkCategory(self, category):
-        utils.checkAttLenInRange("category", category, case.categoryValidRange)
+        utils.checkAttLenInRange("category", category, self.categoryValidRange)
     
     def checkDescription(self, description):
-        utils.checkAttLenInRange("description", description, case.descriptionValidRange)
+        utils.checkAttLenInRange("description", description, self.descriptionValidRange)
 
     def checkRate(self, rate):
-        utils.checkAttInRange("rate", rate, case.rateValidRange)
+        utils.checkAttInRange("rate", rate, self.rateValidRange)
     
     def addComment(self, user, comment):
         self.comments.append(caseComment(user, comment))

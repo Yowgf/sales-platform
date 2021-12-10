@@ -34,39 +34,39 @@ class TestCase:
             func(val)
             
     def test_normalTitleNotRaiseException(self, newCase):
-        TestCase.checkNotRaiseException(TestCase.makeWord(case.titleValidRange[1] - 1),
+        TestCase.checkNotRaiseException(TestCase.makeWord(newCase.titleValidRange[1] - 1),
                                newCase.checkTitle)
     
     def test_smallTitleRaiseException(self, newCase):
-        TestCase.checkRaiseExceptionIL(TestCase.makeWord(case.titleValidRange[0] - 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.titleValidRange[0] - 1),
                                     newCase.checkTitle)
             
     def test_longTitleRaiseException(self, newCase):
-        TestCase.checkRaiseExceptionIL(TestCase.makeWord(case.titleValidRange[1] + 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.titleValidRange[1] + 1),
                                     newCase.checkTitle)
     
     def test_normalCategoryNotRaiseException(self, newCase):
-        TestCase.checkNotRaiseException(TestCase.makeWord(case.categoryValidRange[1] - 1),
+        TestCase.checkNotRaiseException(TestCase.makeWord(newCase.categoryValidRange[1] - 1),
                                newCase.checkCategory)
             
     def test_smallCategoryRaiseException(self, newCase):
-        TestCase.checkRaiseExceptionIL(TestCase.makeWord(case.categoryValidRange[0] - 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.categoryValidRange[0] - 1),
                                newCase.checkCategory)
             
     def test_longCategoryRaiseException(self, newCase):
-        TestCase.checkRaiseExceptionIL(TestCase.makeWord(case.categoryValidRange[1] + 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.categoryValidRange[1] + 1),
                                newCase.checkCategory)
         
     def test_normalDescriptionRaiseException(self, newCase):
-        TestCase.checkNotRaiseException(TestCase.makeWord(case.descriptionValidRange[1] - 1),
+        TestCase.checkNotRaiseException(TestCase.makeWord(newCase.descriptionValidRange[1] - 1),
                                newCase.checkDescription)
             
     def test_smallDescriptionRaiseException(self, newCase):
-        TestCase.checkRaiseExceptionIL(TestCase.makeWord(case.descriptionValidRange[0] - 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.descriptionValidRange[0] - 1),
                                newCase.checkDescription)
         
     def test_longDescriptionRaiseException(self, newCase):
-        TestCase.checkRaiseExceptionIL(TestCase.makeWord(case.descriptionValidRange[1] + 1),
+        TestCase.checkRaiseExceptionIL(TestCase.makeWord(newCase.descriptionValidRange[1] + 1),
                                newCase.checkDescription)
         
     def test_normalRateRaiseException(self, newCase):
