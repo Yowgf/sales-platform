@@ -11,6 +11,7 @@ from .menuUtils.menuUtils import menuUtils
 class consoleInterface:
     def __init__(self, storageManager):
         self.sm = storageManager
+        self.sm.initFromDatabase()
         
         self.console = console()
         self.menu = menuUtils(self.console)
