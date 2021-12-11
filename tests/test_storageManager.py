@@ -44,12 +44,6 @@ class TestStorageManager:
     
     def test_wrongLogin(self, sampleSM):
         assert sampleSM.login("wrong email", "wrong password") == False
-    
-    def test_saleUserAdmin(self, sampleSM):
-        assert sampleSM.login("s", "s") == True
-    
-    def test_clientUserAdmin(self, sampleSM):
-        assert sampleSM.login("c", "c") == True
 
 # Integration tests. These require that 'config.yaml' exists and is configured
 # properly. Also, there has to be a live database on the configured endpoint.
