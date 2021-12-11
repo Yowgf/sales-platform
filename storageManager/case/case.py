@@ -1,10 +1,10 @@
 """case class"""
 
-from datetime import datetime
 from utils import utils
 
 from .caseStatus import caseStatus
 from .caseComment import caseComment
+from ..rate.rate import rate
 
 class case:       
     titleValidRange = (1, 50)
@@ -14,11 +14,11 @@ class case:
 
     dbCols = {
         "id": "varchar(32) primary key",
-        "createdBy": "varchar(50)",
+        "createdBy": "varchar(50) references users(email)",
         "assignedTo": "varchar(50)",
         "title": "varchar({})".format(titleValidRange[1]),
+        "category": "varchar({})".format(categoryValidRange[1]),
         "description": "varchar({})".format(descriptionValidRange[1]),
-        "rate": "int",
     }
 
     def __init__(self, caseId, createdBy):
@@ -30,7 +30,6 @@ class case:
         self.category = None
         self.description = None
         self.rate = None
- 
         
         self.createdAt = utils.datetimeNow()
         self.status = caseStatus()
@@ -61,8 +60,11 @@ class case:
     def assignTo(self, salesUser):
         self.assignedTo = salesUser
 
-    def setRate(self, rate):
-        self.rate = rate
+    def setRate(self, rateVal):
+        self.rate = rate(self.caseId, rateVal)
+
+    def getRate(self):
+        return self.rate
         
     def updateUserRates(self, rate):
         self.assignedTo.updateRate(self.caseId, rate)
