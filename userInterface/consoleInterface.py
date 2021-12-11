@@ -11,6 +11,7 @@ from .menuUtils.menuUtils import menuUtils
 class consoleInterface:
     def __init__(self, storageManager):
         self.sm = storageManager
+        self.sm.initFromDatabase()
         
         self.console = console()
         self.menu = menuUtils(self.console)
@@ -140,7 +141,7 @@ class consoleInterface:
         category = self.menu.attemptConsoleInput("Case category: ", case.checkCategory)
         description = self.menu.attemptConsoleInput("Case description: ", case.checkDescription)
         
-        case.populate(title, category, description)          
+        self.sm.populateCase(case, title, category, description)          
         
         self.menu.pressEnterToLeave()
         
