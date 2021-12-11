@@ -45,6 +45,16 @@ class TestStorageManager:
     def test_wrongLogin(self, sampleSM):
         assert sampleSM.login("wrong email", "wrong password") == False
 
+    def test_createNewCaseNoUser(self, sampleSM):
+        newCase = sampleSM.newCase()
+        assert newCase.id == sampleSM.casses[0]
+
+    def test_createNewCaseWithUser(self, sampleSM):
+        newUser = sampleSM.newUser("email", "name", "type", "password")
+        newCase = sampleSM.newCase(newUser)
+        assert newCase.id == sampleSM.casses[0]
+
+
 # Integration tests. These require that 'config.yaml' exists and is configured
 # properly. Also, there has to be a live database on the configured endpoint.
 
