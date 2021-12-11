@@ -57,7 +57,9 @@ class case:
         utils.checkAttInRange("rate", rate, case.rateValidRange)
     
     def addComment(self, user, comment):
-        self.comments.append(caseComment(user, comment))
+        newComment = caseComment(user, comment)
+        self.comments.append(newComment)
+        return newComment
         
     def assignTo(self, salesUser):
         self.assignedTo = salesUser
@@ -67,6 +69,9 @@ class case:
 
     def getRate(self):
         return self.rate
+
+    def getStatus(self):
+        return self.status
         
     def updateUserRates(self, rate):
         self.assignedTo.updateRate(self.caseId, rate)

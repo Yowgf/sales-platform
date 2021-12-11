@@ -1,6 +1,8 @@
 """Global keys used throughout"""
 
-caseTable = "cases"
-userTable = "users"
-commentTable = "comments"
-rateTable = "rates"
+caseTable = "CASES"
+userTable = "USERS"
+commentTable = "COMMENTS"
+rateTable = "RATES"
+caseStatusTable = "CASE_STATUS"
+allTables = [caseTable, userTable, commentTable, rateTable, caseStatusTable]

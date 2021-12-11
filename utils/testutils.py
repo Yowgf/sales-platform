@@ -21,7 +21,7 @@ def sampleUsers():
     }
 
 def sampleCase():
-    return (case("exampleId", "exampleCreator").
+    return (case("exampleId", sampleUser()).
         populate("exampleTitle", "exampleCategory", "exampleDescription")
     )
 
