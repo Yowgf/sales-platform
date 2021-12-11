@@ -40,5 +40,5 @@ jobs:
           files: ./coverage/reports/coverage.xml
           flags: unittests
           name: codecov-umbrella
-          override_branch: ./coverage/codecov_report.txt
+          override_branch: coverage/reports/coverage.xml
           verbose: true
