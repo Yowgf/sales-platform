@@ -54,6 +54,7 @@ class TestStorageManager:
 
     @pytest.mark.integtest
     def test_initDatabase(self, fullSample):
+
         try:
             fullSample.db.pingTable(keys.commentTable)
             fullSample.db.pingTable(keys.rateTable)

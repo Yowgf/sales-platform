@@ -13,6 +13,7 @@ from .errors.missingFlags import missingFlags
 
 class config:
     flags = ["config-file", "host", "port", "database", "user", "password", "connOpts", "dev"]
+
     requiredFlags = ["host", "port", "database", "user", "password"]
 
     def __init__(self, configArg):
