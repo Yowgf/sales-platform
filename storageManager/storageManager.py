@@ -10,8 +10,8 @@ from uuid import uuid4
 from keys import keys
 from .case import case
 from .case.caseComment.caseComment import caseComment
+from .case.caseStatus.caseStatus import caseStatus
 from .rate import rate
-from .case.caseStatus import caseStatus
 from .user import user
 from .dbi.dbi import dbi
 from .errors.emailTaken import emailTaken
@@ -73,10 +73,17 @@ class storageManager:
 
 # CASES
 
-    def newCase(self):
+    def newCase(self, usr=None):
+        if usr == None:
+            usr = self.currentUser
         caseId = self.findIdNotIn(self.cases.keys())
-        c = case(caseId, self.users[self.currentUser.name])
+        c = case(caseId, usr)
+        if not isinstance(usr, user):
+            c = case(caseId, self.users[usr.name])
         self.cases[caseId] = c
+        # When creating case for the first time, must record the case status
+        # in database
+        self.db.registerCaseStatus(c.getStatus())
         return c
 
     def populateCase(self, case, *args):
@@ -84,8 +91,12 @@ class storageManager:
         self.db.registerCase(case)
         return case
             
-    def addCaseComment(self, case, comment):
-        case.addComment(self.currentUser, comment)
+    def addCaseComment(self, case, commentStr, user=None):
+        if user == None:
+            user = self.currentUser
+        comm = case.addComment(user, commentStr)
+        self.db.registerComment(comm)
+        return comm
 
     def getCasesByUserType(self, userType):
         if userType == self.userType_all:
@@ -144,16 +155,15 @@ class storageManager:
         self.populateFromDatabase(self.db)
 
     def dropDatabaseTables(self, db):
-        db.dropTable(keys.commentTable)
-        db.dropTable(keys.rateTable)
-        db.dropTable(keys.caseTable)
-        db.dropTable(keys.userTable)
+        for table in keys.allTables:
+            db.dropTable(table)
 
     def createDatabaseTables(self, db):
         db.createTable(keys.commentTable, caseComment.dbCols)
         db.createTable(keys.rateTable, rate.dbCols)
         db.createTable(keys.userTable, user.dbCols)
         db.createTable(keys.caseTable, case.dbCols)
+        db.createTable(keys.caseStatusTable, caseStatus.dbCols)
 
     def populateFromDatabase(self, db):
         self._fetchUsersFromDatabase(db)

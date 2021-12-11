@@ -6,7 +6,8 @@ class caseComment:
     dbCols = {
         "id": "SERIAL primary key",
         "createdBy": "varchar(50)",
-        "createdAt": "time",
+        # TODO: make this attribute of time type -aholmquist 2021-12-10
+        "createdAt": "varchar(50)",
         "comment": "varchar(1000)",
     }
 

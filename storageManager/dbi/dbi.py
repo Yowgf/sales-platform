@@ -108,3 +108,20 @@ class dbi:
             user.password,
         ) + " ON CONFLICT DO NOTHING"
         self.query(queryStr)
+
+    def registerComment(self, comm):
+        queryStr = "INSERT INTO {} (createdBy, createdAt, comment) \
+            VALUES ('{}', '{}', '{}')".format(
+            keys.commentTable,
+            comm.createdBy.email,
+            comm.createdAt.formalStr(),
+            comm.comment,
+        ) + " ON CONFLICT DO NOTHING"
+        self.query(queryStr)
+
+    def registerCaseStatus(self, status):
+        queryStr = "INSERT INTO {} (status) VALUES ('{}')".format(
+            keys.caseStatusTable,
+            status.status,
+        ) + " ON CONFLICT DO NOTHING"
+        self.query(queryStr)

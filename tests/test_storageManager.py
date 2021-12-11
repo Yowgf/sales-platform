@@ -56,10 +56,8 @@ class TestStorageManager:
     def test_initDatabase(self, fullSample):
 
         try:
-            fullSample.db.pingTable(keys.commentTable)
-            fullSample.db.pingTable(keys.rateTable)
-            fullSample.db.pingTable(keys.userTable)
-            fullSample.db.pingTable(keys.caseTable)
+            for table in keys.allTables:
+                fullSample.db.pingTable(table)
         except psycopg2.errors.UndefinedTable as e:
             assert False, "Expected that table would exist: {}".format(e)
 
@@ -80,11 +78,26 @@ class TestStorageManager:
         assert len(result) == 1
         assert list(result[0]) == userAttList
 
+    # When we create a case, a case status is also created, by default
     @pytest.mark.integtest
-    def test_newCase(self, fullSample):
+    def test_newCase_createsCaseStatusRecord(self, fullSample):
         su = sampleUser()
-        c = case("exampleId", su)
-        c = fullSample.populateCase(c, "exampleTitle", "exampleCategory", "exampleDescription")
+        c = fullSample.newCase(usr=su)
+        status = c.getStatus()
+        result = fullSample.db.selectStarWhereEqual(keys.caseStatusTable, {
+            "id": 1,
+            "status": status.status,
+        })
+        assert len(result) == 1
+        assert list(result[0]) == [
+            1,
+            status.status,
+        ]
+
+    @pytest.mark.integtest
+    def test_populateCase(self, fullSample):
+        c = sampleCase()
+        c = fullSample.populateCase(c, "examleTitle", "exampleCategory", "exampleDescription")
         result = fullSample.db.selectStarWhereEqual(keys.caseTable, {
             "id": c.caseId,
             "createdBy": c.createdBy.email,
@@ -100,4 +113,23 @@ class TestStorageManager:
             c.title,
             c.category,
             c.description,
+        ]
+    
+    @pytest.mark.integtest
+    def test_addCaseComment(self, fullSample):
+        commentStr = "exampleComment"
+        scase = sampleCase()
+        comm = fullSample.addCaseComment(scase, commentStr, user=scase.createdBy)
+        result = fullSample.db.selectStarWhereEqual(keys.commentTable, {
+            "id": 1,
+            "createdBy": comm.createdBy.email,
+            "createdAt": comm.createdAt.formalStr(),
+            "comment": comm.comment,
+        })
+        assert len(result) == 1
+        assert list(result[0]) == [
+            1,
+            comm.createdBy.email,
+            comm.createdAt.formalStr(),
+            comm.comment,
         ]

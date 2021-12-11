@@ -8,6 +8,11 @@ caseStatus class
 #   "pending response" (waiting for customer to respond),
 #   "pending analysis" (waiting for sales person to analyze the case). This is the status with which a case is created.
 class caseStatus:
+    dbCols = {
+        "id": "SERIAL primary key",
+        "status": "varchar(50)",
+    }
+
     def __init__(self):
         self.pendingAnalysis = "pending analysis"
         self.pendingResponse = "pending response"
