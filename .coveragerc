@@ -11,8 +11,6 @@ exclude_lines =
 ignore_errors = True
 omit =
     tests/*
-    main.py
-    userInterface/*
 
 [xml]
 output = coverage/reports/coverage.xml

@@ -1,4 +1,4 @@
-from sys import argv
+from sys import argv # pragma: no cover
 
 from config.config import config
 from userInterface import consoleInterface
