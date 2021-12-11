@@ -1,6 +1,12 @@
 [run]
 branch = True
-source = ./
+source =
+    ./config
+    ./errors
+    ./keys
+    ./storageManager
+    ./userInterface
+    ./utils
 
 [report]
 exclude_lines =
