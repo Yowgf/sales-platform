@@ -1,5 +1,7 @@
 """config class"""
 
+import logging
+import os
 import yaml
 
 from utils.utils import setIfExists
@@ -61,11 +63,15 @@ class config:
         parsedList = config.parseList(configArg)
         configFile = setIfExists(configFile, parsedList, "config-file")
 
-        C = None
-        with open(configFile) as f:
-            C = yaml.load(f, Loader=yaml.FullLoader)
+        if os.path.isfile(configFile):
+            C = None
+            with open(configFile) as f:
+                C = yaml.load(f, Loader=yaml.FullLoader)
 
-        return C
+            return C
+
+        logging.warn("Config file not found")
+        return {}
 
     def update(self, old, new):
         definitive = old
