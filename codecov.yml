@@ -1,0 +1,4 @@
+# ignore:
+#   - "src/main/java/calculator/config"
+#   - "src/main/java/calculator/exception/"
+#   - "src/main/java/calculator/NumberTheoryCalculatorApplication.java"
