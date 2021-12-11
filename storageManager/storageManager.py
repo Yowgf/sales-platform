@@ -7,13 +7,21 @@ having to import an internal package from the UI.
 
 from uuid import uuid4
 
+from keys import keys
 from .case import case
+from .case.caseComment.caseComment import caseComment
+from .rate import rate
 from .case.caseStatus import caseStatus
 from .user import user
+from .dbi.dbi import dbi
+from .errors.emailTaken import emailTaken
+
+from utils.testutils import sampleUsers
 
 class storageManager:
-    # TODO: make users and cases data persistent in a database -aholmquist 2021-11-29
-    def __init__(self):
+
+    def __init__(self, config):
+        self.config = config
         self.cases = {}
         
         self.userType_customer = "customer"
@@ -21,14 +29,15 @@ class storageManager:
         self.userType_all = "all" # Artificial wildcard user type
         self.userTypes = [self.userType_customer, self.userType_sales, self.userType_all]
         
-        self.users = {
-            "daniel@email.com": user("daniel@email.com", "Daniel", "customer", "password321"),
-            "joseph@email.com": user("joseph@email.com", "Joseph", "sales", "password123"),
-            "c": user("c", "c", "customer", "c"),
-            "s": user("s", "s", "sales", "s"),
-        }
+        self.users = sampleUsers()
         
         self.currentUser = None
+
+        self.db = None
+
+    def __del__(self):
+        if self.db != None:
+            self.db.close()
 
     # login returns True if login succeded, or False otherwise.
     def login(self, email, password):
@@ -59,11 +68,18 @@ class storageManager:
 # CRUD actions
 ################################################################
 
+# CASES
+
     def newCase(self):
         caseId = self.findIdNotIn(self.cases.keys())
         c = case(caseId, self.users[self.currentUser.name])
         self.cases[caseId] = c
         return c
+
+    def populateCase(self, case, *args):
+        case.populate(*args)
+        self.db.registerCase(case)
+        return case
             
     def addCaseComment(self, case, comment):
         case.addComment(self.currentUser, comment)
@@ -84,8 +100,9 @@ class storageManager:
             raise ValueError("Unsupported user type {}".format(userType))
 
     def assignCaseTo(self, case, salesUser):
-        if case.rate != None:
-            salesUser.updateRate(case.caseId, case.rate)
+        crate = case.getRate()
+        if crate != None:
+            salesUser.updateRate(case.caseId, crate.val)
         case.assignTo(salesUser)
         
     def getAllCaseStatuses(self):
@@ -101,3 +118,47 @@ class storageManager:
         if case.assignedTo != None:
             case.updateUserRates(rate)
         return case.setRate(rate)
+
+# USERS
+
+    # TODO: make interface in console to register a user -aholmquist 2021-12-10
+    def newUser(self, email, name, type, password):
+        if email in [e for e in self.users.keys()]:
+            raise emailTaken(email)
+        u = user(email, name, type, password)
+        self.db.registerUser(u)
+        return u
+
+# DATABASE STUFF
+
+    def initFromDatabase(self):
+        self.db = dbi(self.config)
+        self.db.connect()
+        self.createDatabaseTables(self.db)
+        self.populateFromDatabase(self.db)
+
+    def createDatabaseTables(self, db):
+        db.createTable(keys.commentTable, caseComment.dbCols)
+        db.createTable(keys.rateTable, rate.dbCols)
+        db.createTable(keys.caseTable, case.dbCols)
+        db.createTable(keys.userTable, user.dbCols)
+
+    def populateFromDatabase(self, db):
+        # self._fetchUsersFromDatabase(db)
+        self._fetchCasesFromDatabase(db)
+
+    def _fetchUsersFromDatabase(self, db):
+        queryResults = db.selectStar(keys.userTable)
+        for result in queryResults:
+            userEmail = result[0]
+            userName = result[1]
+            userType = result[2]
+            userPassword = result[3]
+            self.users[userEmail] = user(userEmail, userName, userType, userPassword)
+
+    def _fetchCasesFromDatabase(self, db):
+        queryResults = db.selectStar(keys.caseTable)
+        for result in queryResults:
+            caseId = result[0]
+            createdBy = result[1]
+            self.cases[caseId] = case(caseId, createdBy)
