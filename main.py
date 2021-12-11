@@ -7,7 +7,7 @@ from storageManager import storageManager
 def main():
     cfg = config(argv)
     sm = storageManager(cfg)
-    ui = consoleInterface(sm)
+    ui = consoleInterface(cfg, sm)
     ui.run()
     
 main()

@@ -12,7 +12,7 @@ from .errors.nonExistantFlag import nonExistantFlag
 from .errors.missingFlags import missingFlags
 
 class config:
-    flags = ["config-file", "host", "port", "database", "user", "password", "connOpts"]
+    flags = ["config-file", "host", "port", "database", "user", "password", "connOpts", "dev"]
     requiredFlags = ["host", "port", "database", "user", "password"]
 
     def __init__(self, configArg):
@@ -24,6 +24,8 @@ class config:
         self.user = ""
         self.password = ""
         self.connOpts = ""
+
+        self.dev = ""
 
         # Parse from yaml file
         self.C = self.update(self.C, config.parseFile(configArg))
@@ -89,6 +91,8 @@ class config:
         self.user = setIfExists(self.user, C, "user")
         self.password = setIfExists(self.password, C, "password")
         self.connOpts = setIfExists(self.connOpts, C, "connOpts")
+        
+        self.dev = setIfExists(self.dev, C, "dev")
 
     def checkMissingFlags(self, C):
         # Build a message containing all missing flags

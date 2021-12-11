@@ -3,6 +3,7 @@
 dbi stands for 'database interface'
 """
 
+import logging
 import psycopg2
 
 from config.config import config
@@ -34,6 +35,7 @@ class dbi:
         self.conn.close()
 
     def query(self, queryStr):
+        logging.debug("Querying database with string: {}".format(queryStr))
         cur = self.conn.cursor()
         cur.execute(queryStr)
         self.conn.commit()
@@ -42,6 +44,10 @@ class dbi:
             results = cur.fetchall()
         cur.close()
         return results
+
+################################################################
+# Useful query patterns
+################################################################
 
     def dropTable(self, tableName):
         self.query(f"DROP TABLE IF EXISTS {tableName}")
@@ -54,6 +60,10 @@ class dbi:
         createQuery = createQuery[:-1] # Remove last comma
         createQuery += ")"
         self.query(createQuery)
+
+    # Raises exception if table does not exist
+    def pingTable(self, tableName):
+        self.query(f"SELECT * from {tableName} LIMIT 0")
 
     def selectStar(self, tableName):
         return self.query(f"SELECT * FROM {tableName}")
@@ -87,7 +97,6 @@ class dbi:
             case.category,
             case.description,
         ) + " ON CONFLICT DO NOTHING"
-        print("Query string to register case:", queryStr)
         self.query(queryStr)
 
     def registerUser(self, user):

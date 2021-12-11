@@ -14,7 +14,9 @@ class case:
 
     dbCols = {
         "id": "varchar(32) primary key",
-        "createdBy": "varchar(50) references users(email)",
+        # TODO: Eventually, we should have 'references users(email)'
+        # in the attribute createdBy. -aholmquist 2021-12-10
+        "createdBy": "varchar(50)",
         "assignedTo": "varchar(50)",
         "title": "varchar({})".format(titleValidRange[1]),
         "category": "varchar({})".format(categoryValidRange[1]),
