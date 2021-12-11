@@ -3,15 +3,21 @@
 from errors.InvalidLength import InvalidLength
 from .console import console
 from .menuUtils.menuUtils import menuUtils
+from storageManager.storageManager import storageManager
 
 # consoleInterface handles all user interactions in the system.
 #
 # In the future, we want this functionality to be spread across
 # multiple modules.
 class consoleInterface:
-    def __init__(self, storageManager):
-        self.sm = storageManager
-        self.sm.initFromDatabase()
+    def __init__(self, config, sm):
+        self.config = config
+
+        if self.config.dev == "true":
+            self.sm = storageManager(config)
+        else:
+            self.sm = sm
+            self.sm.initAndPopulateFromDatabase()
         
         self.console = console()
         self.menu = menuUtils(self.console)

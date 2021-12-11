@@ -1,5 +1,6 @@
 import pytest
 from sys import argv
+import psycopg2
 
 from config.config import config
 from utils.testutils import sampleConfig, sampleCase, sampleUser
@@ -40,18 +41,27 @@ class TestStorageManager:
 # Integration tests. These require that 'config.yaml' exists and is configured
 # properly. Also, there has to be a live database on the configured endpoint.
 
-    # This one includes a configured database
+    # This one includes a configured database. It restarts the tables afresh,
+    # to make sure we don't see remnants from previous runs.
     @pytest.fixture
     def fullSample(self):
         sm = storageManager(config([]))
-        sm.initFromDatabase()
+        sm.initDatabase()
+        sm.dropDatabaseTables(sm.db)
+        sm.createDatabaseTables(sm.db)
+        sm.populateFromDatabase(sm.db)
         return sm
 
     @pytest.mark.integtest
     def test_initDatabase(self, fullSample):
-        # TODO: verify at least that the tables exist in the database, after
-        # initialization
-        pass
+
+        try:
+            fullSample.db.pingTable(keys.commentTable)
+            fullSample.db.pingTable(keys.rateTable)
+            fullSample.db.pingTable(keys.userTable)
+            fullSample.db.pingTable(keys.caseTable)
+        except psycopg2.errors.UndefinedTable as e:
+            assert False, "Expected that table would exist: {}".format(e)
 
     @pytest.mark.integtest
     def test_newUser(self, fullSample):

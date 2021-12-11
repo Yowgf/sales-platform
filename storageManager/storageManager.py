@@ -29,7 +29,10 @@ class storageManager:
         self.userType_all = "all" # Artificial wildcard user type
         self.userTypes = [self.userType_customer, self.userType_sales, self.userType_all]
         
-        self.users = sampleUsers()
+        if config.dev == "true":
+            self.users = sampleUsers()
+        else:
+            self.users = {}
         
         self.currentUser = None
 
@@ -131,20 +134,29 @@ class storageManager:
 
 # DATABASE STUFF
 
-    def initFromDatabase(self):
+    def initDatabase(self):
         self.db = dbi(self.config)
         self.db.connect()
+
+    def initAndPopulateFromDatabase(self):
+        self.initDatabase()
         self.createDatabaseTables(self.db)
         self.populateFromDatabase(self.db)
+
+    def dropDatabaseTables(self, db):
+        db.dropTable(keys.commentTable)
+        db.dropTable(keys.rateTable)
+        db.dropTable(keys.caseTable)
+        db.dropTable(keys.userTable)
 
     def createDatabaseTables(self, db):
         db.createTable(keys.commentTable, caseComment.dbCols)
         db.createTable(keys.rateTable, rate.dbCols)
-        db.createTable(keys.caseTable, case.dbCols)
         db.createTable(keys.userTable, user.dbCols)
+        db.createTable(keys.caseTable, case.dbCols)
 
     def populateFromDatabase(self, db):
-        # self._fetchUsersFromDatabase(db)
+        self._fetchUsersFromDatabase(db)
         self._fetchCasesFromDatabase(db)
 
     def _fetchUsersFromDatabase(self, db):
