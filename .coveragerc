@@ -19,4 +19,4 @@ omit =
     tests/*
 
 [xml]
-output = coverage/reports/coverage.xml
+output = ./coverage.xml
