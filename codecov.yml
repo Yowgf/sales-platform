@@ -1,0 +1,3 @@
+ignore:
+  - "userInterface"
+  - "main.py"
