@@ -34,7 +34,7 @@ class config:
         # Parse from list of arguments
         self.C = self.update(self.C, config.parseList(configArg))
 
-        self.checkMissingFlags(self.C)
+        config.checkMissingFlags(self.C)
 
     # The argument list is given in the form '-flag=value'
     def parseList(arglist):
@@ -73,7 +73,7 @@ class config:
 
             return C
 
-        logging.warn("Config file not found")
+        logging.warning("Config file not found")
         return {}
 
     def update(self, old, new):
@@ -95,12 +95,12 @@ class config:
         
         self.dev = setIfExists(self.dev, C, "dev")
 
-    def checkMissingFlags(self, C):
+    def checkMissingFlags(C):
         # Build a message containing all missing flags
         missingFlagsMessage = ""
 
         ckeys = C.keys()
-        for flag in self.requiredFlags:
+        for flag in config.requiredFlags:
             if flag not in ckeys:
                 missingFlagsMessage += flag + ","
         

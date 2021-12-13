@@ -41,7 +41,7 @@ class TestStorageManager:
 # Integration tests. These require that 'config.yaml' exists and is configured
 # properly. Also, there has to be a live database on the configured endpoint.
 
-    # This one includes a configured database. It restarts the tables afresh,
+    # This fixture includes a configured database. It restarts the tables afresh,
     # to make sure we don't see remnants from previous runs.
     @pytest.fixture
     def fullSample(self):
@@ -54,7 +54,6 @@ class TestStorageManager:
 
     @pytest.mark.integtest
     def test_initDatabase(self, fullSample):
-
         try:
             for table in keys.allTables:
                 fullSample.db.pingTable(table)
