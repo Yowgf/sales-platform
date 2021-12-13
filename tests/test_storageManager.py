@@ -45,6 +45,14 @@ class TestStorageManager:
     def test_wrongLogin(self, sampleSM):
         assert sampleSM.login("wrong email", "wrong password") == False
 
+    def test_newCaseNoneInit(self, sampleSM):
+        case_ = case("Case ID", "Created by")
+        assert case.assignedTo == None, "case assignedTo is not None at init"
+        assert case.title == None, "case title is not None at init"
+        assert case.category == None, "case category is not None at init"
+        assert case.description == None, "case description is not None at init"
+        assert case.rate == None, "case rate is not None at init"
+
 # Integration tests. These require that 'config.yaml' exists and is configured
 # properly. Also, there has to be a live database on the configured endpoint.
 
