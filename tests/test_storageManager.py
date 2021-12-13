@@ -47,11 +47,11 @@ class TestStorageManager:
 
     def test_newCaseNoneInit(self, sampleSM):
         case_ = case("Case ID", "Created by")
-        assert case.assignedTo == None, "case assignedTo is not None at init"
-        assert case.title == None, "case title is not None at init"
-        assert case.category == None, "case category is not None at init"
-        assert case.description == None, "case description is not None at init"
-        assert case.rate == None, "case rate is not None at init"
+        assert case_.assignedTo == None, "case assignedTo is not None at init"
+        assert case_.title == None, "case title is not None at init"
+        assert case_.category == None, "case category is not None at init"
+        assert case_.description == None, "case description is not None at init"
+        assert case_.rate == None, "case rate is not None at init"
 
 # Integration tests. These require that 'config.yaml' exists and is configured
 # properly. Also, there has to be a live database on the configured endpoint.
