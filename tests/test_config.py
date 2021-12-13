@@ -19,12 +19,22 @@ class TestConfig:
     def sample(self):
         return sampleConfig()
 
-    def test_Init(self, sample):
+    def test_ConfigInitHost(self, sample):
         assert sample.host == "127.0.0.1"
+    
+    def test_ConfigInitPort(self, sample):
         assert sample.port == "1521"
+
+    def test_ConfigInitDatabase(self, sample):
         assert sample.database == "exampleDatabase"
+
+    def test_ConfigInitUser(self, sample):
         assert sample.user == "exampleUser"
+
+    def test_ConfigInitPassword(self, sample):
         assert sample.password == "examplePassword"
+
+    def test_ConfigInitConnOpts(self, sample):
         assert sample.connOpts == "sslmode=disable"
 
     def test_checkMissingFlagsNoRaiseMissingFlags(self, sample):

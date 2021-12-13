@@ -20,8 +20,10 @@ class TestInRange:
     def test_isInRangeUpperBound (self, sampleRange):
         assert inRange(10, sampleRange) is True
 
-    def test_isNotInRange (self, sampleRange):
+    def test_isNotInRangeLowerBound (self, sampleRange):
         assert inRange(-1, sampleRange) is False
+    
+    def test_isNotInRangeUpperBound (self, sampleRange):
         assert inRange(11, sampleRange) is False
 
 class TestCheckAttLenInRange:

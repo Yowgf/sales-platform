@@ -14,9 +14,13 @@ class TestStorageManager:
         return storageManager(sampleConfig())
 
     # Unit tests
-    def test_init(self, sampleSM):
+    def test_initUserType_customer(self, sampleSM):
         assert sampleSM.userType_customer == "customer"
+
+    def test_initUserType_sales(self, sampleSM):
         assert sampleSM.userType_sales == "sales"
+        
+    def test_initUserType_all(self, sampleSM):
         assert sampleSM.userType_all == "all"
 
     def test_assignCaseTo(self, sampleSM):
@@ -37,6 +41,17 @@ class TestStorageManager:
         sampleSM.setRate(scase, 4)
         assert scase.rate.val == 4
         assert suser.averageRate == 4
+    
+    def test_wrongLogin(self, sampleSM):
+        assert sampleSM.login("wrong email", "wrong password") == False
+
+    def test_newCaseNoneInit(self, sampleSM):
+        case_ = case("Case ID", "Created by")
+        assert case_.assignedTo == None, "case assignedTo is not None at init"
+        assert case_.title == None, "case title is not None at init"
+        assert case_.category == None, "case category is not None at init"
+        assert case_.description == None, "case description is not None at init"
+        assert case_.rate == None, "case rate is not None at init"
 
 # Integration tests. These require that 'config.yaml' exists and is configured
 # properly. Also, there has to be a live database on the configured endpoint.

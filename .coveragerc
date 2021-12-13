@@ -1,6 +1,12 @@
 [run]
 branch = True
-source = ./
+source =
+    ./config
+    ./errors
+    ./keys
+    ./storageManager
+    ./userInterface
+    ./utils
 
 [report]
 exclude_lines =
@@ -13,4 +19,4 @@ omit =
     tests/*
 
 [xml]
-output = coverage/reports/coverage.xml
+output = ./coverage.xml

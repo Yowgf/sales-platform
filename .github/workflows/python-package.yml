@@ -29,16 +29,9 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test with pytest and generate coverage report
         run: |
-          python -m pytest -m 'not integtest' --cov=./ --cov-report=xml
+          python -m pytest -m 'not integtest' --cov-config=.coveragerc --cov
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/reports/
-          env_vars: OS,PYTHON
-          fail_ci_if_error: true
-          files: ./coverage/reports/coverage.xml
-          flags: unittests
-          name: codecov-umbrella
-          override_branch: ./coverage/codecov_report.txt
-          verbose: true
+    
